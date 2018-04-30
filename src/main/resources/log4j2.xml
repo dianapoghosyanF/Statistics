@@ -1,0 +1,31 @@
+<Configuration status="WARN" monitorInterval="30">
+    <Properties>
+        <Property name="log-path">log</Property>
+        <Property name="log-file-name">Statistics</Property>
+        <Property name="log_pattern">%d{dd/MMM/yyyy HH:mm:ss,SSS}- %c: %m%n</Property>
+    </Properties>
+    <Appenders>
+        <Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${log_pattern}"/>
+        </Console>
+
+        <RollingFile name="RollingFile" fileName="${log-path}/${log-file-name}.log" filePattern="${log-path}/${log-file-name}-%i.log" >
+            <PatternLayout>
+                <pattern>${log_pattern}</pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.xxx" level="debug" additivity="false">
+            <AppenderRef ref="ConsoleAppender" />
+        </Logger>
+
+        <Root level="info">
+            <AppenderRef ref="RollingFile" />
+        </Root>
+    </Loggers>
+</Configuration>
